@@ -11,8 +11,7 @@ interface TaskListProps {
 }
 
 const TaskList: React.FC<TaskListProps> = (props) => {
-  const { id, title, created_at, description, handleDelete, handleEditMode } =
-    props;
+  const { id, title, handleDelete, handleEditMode } = props;
 
   return (
     <div className="flex justify-between py-3 px-2.5 rounded-lg hover:bg-gray-100 hover:text-black mb-4">
