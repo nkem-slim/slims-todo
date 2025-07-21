@@ -38,29 +38,30 @@ function TaskDashboard(): JSX.Element {
   };
 
   const charLong = (): void => {
-    let timerInterval: NodeJS.Timeout;
-    Swal.fire({
-      title: "Task is too long. Consider it breaking down!",
-      html: "This will close in <b></b> milliseconds.",
-      timer: 4000,
-      didOpen: () => {
-        Swal.showLoading();
-        const b = Swal.getHtmlContainer()?.querySelector("b");
-        timerInterval = setInterval(() => {
-          if (b) {
-            b.textContent = String(Swal.getTimerLeft());
-          }
-        }, 100);
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-      },
-    }).then((result: any) => {
-      /* Read more about handling dismissals below */
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log("I was closed by the timer");
-      }
-    });
+    // let timerInterval: NodeJS.Timeout;
+    // Swal.fire({
+    //   title: "Task is too long. Consider it breaking down!",
+    //   html: "This will close in <b></b> milliseconds.",
+    //   timer: 4000,
+    //   didOpen: () => {
+    //     Swal.showLoading();
+    //     const b = Swal.getHtmlContainer()?.querySelector("b");
+    //     timerInterval = setInterval(() => {
+    //       if (b) {
+    //         b.textContent = String(Swal.getTimerLeft());
+    //       }
+    //     }, 100);
+    //   },
+    //   willClose: () => {
+    //     clearInterval(timerInterval);
+    //   },
+    // }).then((result: any) => {
+    //   /* Read more about handling dismissals below */
+    //   if (result.dismiss === Swal.DismissReason.timer) {
+    //     console.log("I was closed by the timer");
+    //   }
+    // });
+    alert("Task length is above 30 characters.");
   };
 
   const _create_todo_ = (e: React.FormEvent): void => {
@@ -110,29 +111,42 @@ function TaskDashboard(): JSX.Element {
 
   // Delete Task
   const handleDelete = (id: string | number): void => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result: any) => {
-      if (result.isConfirmed) {
-        if (!task_local_storage) return;
-        // get todo
-        const todo_db: Task[] = getLocalStorage(task_local_storage);
-        const _new_todo_db_: Task[] = todo_db.filter(
-          (todo: Task) => todo.id !== id
-        );
-        setLocalStorage(task_local_storage, _new_todo_db_);
-        fetchTodos();
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      } else {
-        return;
-      }
-    });
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You won't be able to revert this!",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#3085d6",
+    //   cancelButtonColor: "#d33",
+    //   confirmButtonText: "Yes, delete it!",
+    // }).then((result: any) => {
+    //   if (result.isConfirmed) {
+    //     if (!task_local_storage) return;
+    //     // get todo
+    //     const todo_db: Task[] = getLocalStorage(task_local_storage);
+    //     const _new_todo_db_: Task[] = todo_db.filter(
+    //       (todo: Task) => todo.id !== id
+    //     );
+    //     setLocalStorage(task_local_storage, _new_todo_db_);
+    //     fetchTodos();
+    //     Swal.fire("Deleted!", "Your file has been deleted.", "success");
+    //   } else {
+    //     return;
+    //   }
+    // });
+    const iwantToDelete = confirm("Are you sure you want to delete task?");
+    if (iwantToDelete) {
+      if (!task_local_storage) return;
+      // get todo
+      const todo_db: Task[] = getLocalStorage(task_local_storage);
+      const _new_todo_db_: Task[] = todo_db.filter(
+        (todo: Task) => todo.id !== id
+      );
+      setLocalStorage(task_local_storage, _new_todo_db_);
+      fetchTodos();
+    } else {
+      return;
+    }
   };
 
   // fetch Tasks
